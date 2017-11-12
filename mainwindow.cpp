@@ -15,6 +15,27 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+void salt(cv::Mat &ima, int n)
+{
+    qsrand(90000);
+    for (int k=0; k<n; k++)
+    {
+        // rand() is the MFC random number generator
+        // try qrand() with Qt
+        int i= qrand()%ima.cols;
+        int j= qrand()%ima.rows;
+        if (ima.channels() == 1)
+        { // gray-level image
+            ima.at<uchar>(j,i)= 255;
+        } else if (ima.channels() == 3)
+        { // color image
+            ima.at<cv::Vec3b>(j,i)[0]= 255;
+            ima.at<cv::Vec3b>(j,i)[1]= 255;
+            ima.at<cv::Vec3b>(j,i)[2]= 255;
+        }
+    }
+}
+
 void MainWindow::on_pushButton_clicked()
 {
     QString fileName = QFileDialog::getOpenFileName(this,
@@ -27,6 +48,7 @@ void MainWindow::on_pushButton_clicked()
 
 void MainWindow::on_pushButton_2_clicked()
 {
+    salt(image, 3000);
     cv::flip(image,image,1);
     cv::cvtColor(image, image, CV_BGR2RGB);
 
