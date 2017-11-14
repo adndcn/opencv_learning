@@ -48,12 +48,17 @@ void MainWindow::on_pushButton_clicked()
 
 void MainWindow::on_pushButton_2_clicked()
 {
-    if(image.isContinuous())
-    {
-        cout<<"continous"<<endl;
-        image = image.reshape(1, image.cols*image.rows);
-    }
-    cout<<image.rows<<endl;
-    cout<<image.cols<<endl;
-    cout<<image.channels()<<endl;
+    double duration;
+    duration = static_cast<double>(cv::getTickCount());
+    cv::flip(image,image,1);
+    cv::cvtColor(image, image, CV_BGR2RGB);
+
+    QImage img = QImage((const unsigned char*)(image.data),
+            image.cols, image.rows, QImage::Format_RGB888);
+    ui->label->setPixmap(QPixmap::fromImage(img));
+
+    ui->label->resize(ui->label->pixmap()->size());
+    duration = static_cast<double>(cv::getTickCount()) - duration;
+    duration /= cv::getTickFrequency();
+    cout<<duration<<"ms"<<endl;
 }
