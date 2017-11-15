@@ -60,5 +60,5 @@ void MainWindow::on_pushButton_2_clicked()
     ui->label->resize(ui->label->pixmap()->size());
     duration = static_cast<double>(cv::getTickCount()) - duration;
     duration /= cv::getTickFrequency();
-    cout<<duration<<"ms"<<endl;
+    cout<<duration<<"s"<<endl;
 }
