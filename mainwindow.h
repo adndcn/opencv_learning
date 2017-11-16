@@ -6,6 +6,7 @@
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
+#include <opencv/highgui.h>
 #include <QString>
 #include <QtGlobal>
 #include <iostream>
@@ -30,7 +31,7 @@ private slots:
 private:
     Ui::MainWindow *ui;
 
-     cv::Mat image;
+    IplImage* image;
 };
 
 #endif // MAINWINDOW_H
