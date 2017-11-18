@@ -15,6 +15,19 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+void sharpen2D(const cv::Mat &image, cv::Mat &result) {
+    // Construct kernel (all entries initialized to 0)
+    cv::Mat kernel(3,3,CV_32F,cv::Scalar(0));
+    // assigns kernel values
+    kernel.at<float>(1,1)= 5.0;
+    kernel.at<float>(0,1)= -1.0;
+    kernel.at<float>(2,1)= -1.0;
+    kernel.at<float>(1,0)= -1.0;
+    kernel.at<float>(1,2)= -1.0;
+    //filter the image
+    cv::filter2D(image,result,image.depth(),kernel);
+}
+
 void sharpen(const cv::Mat &image, cv::Mat &result)
 {
     // allocate if necessary
@@ -46,16 +59,28 @@ void MainWindow::on_pushButton_clicked()
     QString fileName = QFileDialog::getOpenFileName(this,
     tr("Open Image"), "F:\\qt\\opencv_learning",
     tr("Image Files (*.png *.jpg *.jpeg *.bmp *.tif)"));
-    image = cv::imread(fileName.toLatin1().data(), 0);
-    cv::namedWindow("window");
-    cv::imshow("window", image);
+    image1 = cv::imread(fileName.toLatin1().data());
+//    cv::namedWindow("window");
+//    cv::imshow("window", image1);
+
+    fileName = QFileDialog::getOpenFileName(this,
+    tr("Open Image"), "F:\\qt\\opencv_learning",
+    tr("Image Files (*.png *.jpg *.jpeg *.bmp *.tif)"));
+
+    image2 = cv::imread(fileName.toLatin1().data());
+//    cv::namedWindow("window2");
+//    cv::imshow("window2", image2);
+
+
 
 }
 
 void MainWindow::on_pushButton_2_clicked()
 {
     cv::Mat result;
-    sharpen(image, result);
+    cv::Mat ROI;
+    ROI = image1(cv::Rect(0,0, image2.cols, image2.rows));
+    cv::addWeighted(ROI, 0.5, image2, 0.7, 0., ROI);
     cv::namedWindow("result");
-    cv::imshow("result", result);
+    cv::imshow("result", image1);
 }
