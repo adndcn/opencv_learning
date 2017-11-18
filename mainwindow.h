@@ -31,7 +31,7 @@ private slots:
 private:
     Ui::MainWindow *ui;
 
-    IplImage* image;
+    cv::Mat* image;
 };
 
 #endif // MAINWINDOW_H
