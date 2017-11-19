@@ -30,8 +30,10 @@ INCLUDEPATH += D:/opencv/include/opencv \
 LIBS += -L D:/opencv/lib/libopencv_*.a
 
 SOURCES += main.cpp\
-        mainwindow.cpp
+        mainwindow.cpp \
+    histogram1d.cpp
 
-HEADERS  += mainwindow.h
+HEADERS  += mainwindow.h \
+    histogram1d.h
 
 FORMS    += mainwindow.ui

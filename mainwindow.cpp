@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "histogram1d.h"
 
 using namespace std;
 
@@ -59,17 +60,9 @@ void MainWindow::on_pushButton_clicked()
     QString fileName = QFileDialog::getOpenFileName(this,
     tr("Open Image"), "F:\\qt\\opencv_learning",
     tr("Image Files (*.png *.jpg *.jpeg *.bmp *.tif)"));
-    image1 = cv::imread(fileName.toLatin1().data());
-//    cv::namedWindow("window");
-//    cv::imshow("window", image1);
-
-    fileName = QFileDialog::getOpenFileName(this,
-    tr("Open Image"), "F:\\qt\\opencv_learning",
-    tr("Image Files (*.png *.jpg *.jpeg *.bmp *.tif)"));
-
-    image2 = cv::imread(fileName.toLatin1().data());
-//    cv::namedWindow("window2");
-//    cv::imshow("window2", image2);
+    image = cv::imread(fileName.toLatin1().data(), 0);
+    cv::namedWindow("window");
+    cv::imshow("window", image);
 
 
 
@@ -77,10 +70,10 @@ void MainWindow::on_pushButton_clicked()
 
 void MainWindow::on_pushButton_2_clicked()
 {
-    cv::Mat result;
-    cv::Mat ROI;
-    ROI = image1(cv::Rect(0,0, image2.cols, image2.rows));
-    cv::addWeighted(ROI, 0.5, image2, 0.7, 0., ROI);
+    Histogram1D h;
+
+    cv::Mat histo = h.getHistogramImage(image);
+
     cv::namedWindow("result");
-    cv::imshow("result", image1);
+    cv::imshow("result", histo);
 }
